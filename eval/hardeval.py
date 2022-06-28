@@ -81,6 +81,7 @@ def main(write_dir: str, pred: str, train: str, strict: bool = False):
             if len(elems):
                 train_tokens.append(elems[word_col_ix])
                 train_gold_bio.append(elems[gold_col_ix])
+
     if len(train_tokens) == 0:
         msg = "Error: 0 tokens read"
         raise ValueError(msg)
@@ -91,7 +92,11 @@ def main(write_dir: str, pred: str, train: str, strict: bool = False):
     test_vocab = set(test_tokens)
 
     # Enforce valid BIO-2 labeling
-    enforce_valid_bio2_labeling(train_gold_bio)
+    try:
+        enforce_valid_bio2_labeling(train_gold_bio)
+    except Exception as ex:
+        print(ex)
+        print('Warning: Exception in verifying IOB-2 tags on training data')
     enforce_valid_bio2_labeling(test_gold_bio)
     #enforce_valid_bio2_labeling(test_pred_bio)
 
