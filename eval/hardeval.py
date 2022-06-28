@@ -97,7 +97,13 @@ def main(write_dir: str, pred: str, train: str, strict: bool = False):
     except Exception as ex:
         print(ex)
         print('Warning: Exception in verifying IOB-2 tags on training data')
-    enforce_valid_bio2_labeling(test_gold_bio)
+
+    try:
+        enforce_valid_bio2_labeling(test_gold_bio)    
+    except Exception as ex:
+        print(ex)
+        print('Warning: Exception in verifying IOB-2 tags on test data')
+
     #enforce_valid_bio2_labeling(test_pred_bio)
 
     # Convert label encoding from BIO-2 to BILOU
