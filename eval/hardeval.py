@@ -3,7 +3,7 @@
 from __future__ import division, print_function, unicode_literals
 import os, argparse
 from collections import defaultdict, Counter
-from utils_hardeval import enforce_valid_bio2_labeling, convert_bio2_to_bilou, compute_TER, get_word_label_count_dict, get_diff_indices, write_table
+from .utils_hardeval import enforce_valid_bio2_labeling, convert_bio2_to_bilou, compute_TER, get_word_label_count_dict, get_diff_indices, write_table
 
 doc="""Given NER predictions and training data, compute token error rate
 on various subsets of tokens. 
@@ -11,8 +11,20 @@ on various subsets of tokens.
 WARNING: labels must be in BIO-2 format.
 """
 
+from typing import NamedTuple
+  
+# creating a class
+class Arguments(NamedTuple):
+    write_dir: str
+    pred: str
+    train: str
+    strict: bool
 
-def main():
+
+
+
+def main(write_dir: str, pred: str, train: str, strict: bool = False):
+    """
     parser = argparse.ArgumentParser(description=doc)
     msg = ("Use strict mode for evaluation of tokens with surprising labels "
            "(evaluate tokens whose labels was never observed in training only)")
@@ -28,7 +40,10 @@ def main():
            "columns, with tokens in the first column, and gold and predicted "
            "BIO-2 labels in the last 2 columns).")
     parser.add_argument("pred", help=msg)
-    args = parser.parse_args()
+    # args = parser.parse_args()
+    """
+    args = Arguments(write_dir, pred, train, strict)
+
 
     if args.write_dir:
         if os.path.exists(args.write_dir):
